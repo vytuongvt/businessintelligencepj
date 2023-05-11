@@ -1,0 +1,77 @@
+{
+	"name": "DimDate",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lsWWIcloud",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DateKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FullDate",
+				"type": "date"
+			},
+			{
+				"name": "Day",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Month",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Quarter",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Weekday",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Week",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DayName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MonthName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "QuarterName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IsWeekend",
+				"type": "bit"
+			},
+			{
+				"name": "IsHoliday",
+				"type": "bit"
+			}
+		],
+		"typeProperties": {
+			"schema": "DIM",
+			"table": "Date"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

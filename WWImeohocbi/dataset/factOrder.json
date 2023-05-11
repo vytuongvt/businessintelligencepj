@@ -1,0 +1,89 @@
+{
+	"name": "factOrder",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lsWWIcloud",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "OrderLineID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OrderID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "StockItemID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Quantity",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "UnitPrice",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "TaxRate",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 3
+			},
+			{
+				"name": "CustomerKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SalespersonPersonKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BackorderOrderID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OrderDate",
+				"type": "date"
+			},
+			{
+				"name": "DeliveryCityID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CityKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DateKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OrderLineKey",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "fact",
+			"table": "Order"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

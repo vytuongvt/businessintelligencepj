@@ -1,0 +1,58 @@
+{
+	"name": "dimArea",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lsWWIcloud",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CityKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WWICityID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "StateProvince",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Country",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SalesTerritory",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Region",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Subregion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ValidFrom",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "ValidTo",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "DIM",
+			"table": "Area"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

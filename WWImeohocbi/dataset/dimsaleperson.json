@@ -1,0 +1,50 @@
+{
+	"name": "dimsaleperson",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lsWWIcloud",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SalespersonKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WWISalesPersonID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FullName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PhoneNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EmailAddress",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ValidFrom",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "ValidTo",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "DIM",
+			"table": "Salesperson"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

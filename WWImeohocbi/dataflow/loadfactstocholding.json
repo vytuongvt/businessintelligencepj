@@ -1,0 +1,118 @@
+{
+	"name": "loadfactstocholding",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "stg_StockItemHoldings",
+						"type": "DatasetReference"
+					},
+					"name": "stgstockHolding"
+				},
+				{
+					"dataset": {
+						"referenceName": "dimstockitem",
+						"type": "DatasetReference"
+					},
+					"name": "dimstockitem"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "fact_stockHolding",
+						"type": "DatasetReference"
+					},
+					"name": "factstockHolding"
+				}
+			],
+			"transformations": [
+				{
+					"name": "getStockItemKey"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "createStockHoldingKey"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          StockItemID as integer,",
+				"          QuantityOnHand as integer,",
+				"          BinLocation as string,",
+				"          LastStocktakeQuantity as integer,",
+				"          LastCostPrice as decimal(18,2),",
+				"          ReorderLevel as integer,",
+				"          TargetStockLevel as integer,",
+				"          LastEditedBy as integer,",
+				"          LastEditedWhen as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> stgstockHolding",
+				"source(output(",
+				"          StockItemKey as integer,",
+				"          WWIStockItemID as integer,",
+				"          StockItem as string,",
+				"          SellingPackage as string,",
+				"          BuyingPackage as string,",
+				"          Brand as string,",
+				"          Barcode as string,",
+				"          QuantityPerOuter as integer,",
+				"          TaxRate as decimal(18,3),",
+				"          UnitPrice as decimal(18,2),",
+				"          RecommendedRetailPrice as decimal(18,2),",
+				"          ValidFrom as timestamp,",
+				"          ValidTo as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> dimstockitem",
+				"stgstockHolding, dimstockitem lookup(StockItemID == WWIStockItemID,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> getStockItemKey",
+				"getStockItemKey select(mapColumn(",
+				"          QuantityOnHand,",
+				"          BinLocation,",
+				"          LastStocktakeQuantity,",
+				"          LastCostPrice,",
+				"          ReorderLevel,",
+				"          TargetStockLevel,",
+				"          StockItemKey",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 keyGenerate(output(StockHoldingKey as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> createStockHoldingKey",
+				"createStockHoldingKey sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          StockHoldingKey as integer,",
+				"          StockItemKey as integer,",
+				"          QuantityOnHand as integer,",
+				"          BinLocation as string,",
+				"          LastStocktakeQuantity as integer,",
+				"          LastCostPrice as decimal(18,2),",
+				"          ReorderLevel as integer,",
+				"          TargetStockLevel as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> factstockHolding"
+			]
+		}
+	}
+}

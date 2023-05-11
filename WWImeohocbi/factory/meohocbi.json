@@ -1,0 +1,9 @@
+{
+	"name": "meohocbi",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "f0b1ec6e-3335-4dfb-93a0-6b0bd32bd753",
+		"tenantId": "2dff09ac-2b3b-4182-9953-2b548e0d0b39"
+	}
+}

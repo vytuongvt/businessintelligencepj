@@ -1,0 +1,344 @@
+{
+	"name": "LoadFactOrder",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "stgOrderLine",
+						"type": "DatasetReference"
+					},
+					"name": "stgOrderLines"
+				},
+				{
+					"dataset": {
+						"referenceName": "WWIstgOrder",
+						"type": "DatasetReference"
+					},
+					"name": "stgOrder"
+				},
+				{
+					"dataset": {
+						"referenceName": "dimcustomer",
+						"type": "DatasetReference"
+					},
+					"name": "DimCustomer"
+				},
+				{
+					"dataset": {
+						"referenceName": "dimsaleperson",
+						"type": "DatasetReference"
+					},
+					"name": "DimSalePerson"
+				},
+				{
+					"dataset": {
+						"referenceName": "dimstockitem",
+						"type": "DatasetReference"
+					},
+					"name": "DimStockItem"
+				},
+				{
+					"dataset": {
+						"referenceName": "dimArea",
+						"type": "DatasetReference"
+					},
+					"name": "DimArea"
+				},
+				{
+					"dataset": {
+						"referenceName": "DimDate",
+						"type": "DatasetReference"
+					},
+					"name": "DimDate"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "factOrder",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "JoinOLandO"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "GetCustomerKey"
+				},
+				{
+					"name": "select2"
+				},
+				{
+					"name": "GetSalepersonKey"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "select3"
+				},
+				{
+					"name": "select4"
+				},
+				{
+					"name": "getCityKey"
+				},
+				{
+					"name": "GetDateKey"
+				},
+				{
+					"name": "getOrderLineKey"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          OrderLineID as integer,",
+				"          OrderID as integer,",
+				"          StockItemID as integer,",
+				"          Description as string,",
+				"          PackageTypeID as integer,",
+				"          Quantity as integer,",
+				"          UnitPrice as decimal(18,2),",
+				"          TaxRate as decimal(18,3),",
+				"          PickedQuantity as integer,",
+				"          PickingCompletedWhen as timestamp,",
+				"          LastEditedBy as integer,",
+				"          LastEditedWhen as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> stgOrderLines",
+				"source(output(",
+				"          OrderID as integer,",
+				"          CustomerID as integer,",
+				"          SalespersonPersonID as integer,",
+				"          PickedByPersonID as integer,",
+				"          ContactPersonID as integer,",
+				"          BackorderOrderID as integer,",
+				"          OrderDate as date,",
+				"          ExpectedDeliveryDate as date,",
+				"          CustomerPurchaseOrderNumber as string,",
+				"          IsUndersupplyBackordered as boolean,",
+				"          Comments as string,",
+				"          DeliveryInstructions as string,",
+				"          InternalComments as string,",
+				"          PickingCompletedWhen as timestamp,",
+				"          LastEditedBy as integer,",
+				"          LastEditedWhen as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> stgOrder",
+				"source(output(",
+				"          CustomerKey as integer,",
+				"          WWICustomerID as integer,",
+				"          Customer as string,",
+				"          PhoneNumber as string,",
+				"          DeliveryPostalCode as string,",
+				"          ValidFrom as timestamp,",
+				"          ValidTo as timestamp,",
+				"          CustomerCategory as string,",
+				"          DeliveryCityID as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DimCustomer",
+				"source(output(",
+				"          SalespersonKey as integer,",
+				"          WWISalesPersonID as integer,",
+				"          FullName as string,",
+				"          PhoneNumber as string,",
+				"          EmailAddress as string,",
+				"          ValidFrom as timestamp,",
+				"          ValidTo as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DimSalePerson",
+				"source(output(",
+				"          StockItemKey as integer,",
+				"          WWIStockItemID as integer,",
+				"          StockItem as string,",
+				"          SellingPackage as string,",
+				"          BuyingPackage as string,",
+				"          Brand as string,",
+				"          Barcode as string,",
+				"          QuantityPerOuter as integer,",
+				"          TaxRate as decimal(18,3),",
+				"          UnitPrice as decimal(18,2),",
+				"          RecommendedRetailPrice as decimal(18,2),",
+				"          ValidFrom as timestamp,",
+				"          ValidTo as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DimStockItem",
+				"source(output(",
+				"          CityKey as integer,",
+				"          WWICityID as integer,",
+				"          StateProvince as string,",
+				"          Country as string,",
+				"          SalesTerritory as string,",
+				"          Region as string,",
+				"          Subregion as string,",
+				"          ValidFrom as timestamp,",
+				"          ValidTo as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DimArea",
+				"source(output(",
+				"          DateKey as integer,",
+				"          FullDate as date,",
+				"          Day as integer,",
+				"          Month as integer,",
+				"          Quarter as integer,",
+				"          Year as integer,",
+				"          Weekday as integer,",
+				"          Week as integer,",
+				"          DayName as string,",
+				"          MonthName as string,",
+				"          QuarterName as string,",
+				"          IsWeekend as boolean,",
+				"          IsHoliday as boolean",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DimDate",
+				"stgOrderLines, stgOrder join(stgOrderLines@OrderID == stgOrder@OrderID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinOLandO",
+				"JoinOLandO select(mapColumn(",
+				"          OrderLineID,",
+				"          OrderID = stgOrderLines@OrderID,",
+				"          StockItemID,",
+				"          Quantity,",
+				"          UnitPrice,",
+				"          TaxRate,",
+				"          CustomerID,",
+				"          SalespersonPersonID,",
+				"          BackorderOrderID,",
+				"          OrderDate",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1, DimCustomer lookup(CustomerID == WWICustomerID,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> GetCustomerKey",
+				"GetCustomerKey select(mapColumn(",
+				"          OrderLineID,",
+				"          OrderID,",
+				"          StockItemID,",
+				"          Quantity,",
+				"          UnitPrice,",
+				"          TaxRate,",
+				"          SalespersonPersonID,",
+				"          BackorderOrderID,",
+				"          OrderDate,",
+				"          CustomerKey,",
+				"          DeliveryCityID",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"select2, DimSalePerson lookup(SalespersonPersonID == WWISalesPersonID,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> GetSalepersonKey",
+				"DimCustomer, DimArea join(DeliveryCityID == WWICityID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"getCityKey select(mapColumn(",
+				"          OrderLineID,",
+				"          OrderID,",
+				"          StockItemID,",
+				"          Quantity,",
+				"          UnitPrice,",
+				"          TaxRate,",
+				"          SalespersonPersonID,",
+				"          BackorderOrderID,",
+				"          OrderDate,",
+				"          CustomerKey,",
+				"          DeliveryCityID,",
+				"          SalespersonKey,",
+				"          CityKey",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select3",
+				"GetDateKey select(mapColumn(",
+				"          OrderLineID,",
+				"          OrderID,",
+				"          StockItemID,",
+				"          Quantity,",
+				"          UnitPrice,",
+				"          TaxRate,",
+				"          BackorderOrderID,",
+				"          OrderDate,",
+				"          CustomerKey,",
+				"          DeliveryCityID,",
+				"          SalespersonKey,",
+				"          CityKey,",
+				"          DateKey",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select4",
+				"GetSalepersonKey, DimArea lookup(DeliveryCityID == WWICityID,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> getCityKey",
+				"select3, DimDate lookup(OrderDate == FullDate,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> GetDateKey",
+				"select4 keyGenerate(output(OrderLineKey as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> getOrderLineKey",
+				"getOrderLineKey sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          OrderLineID as integer,",
+				"          OrderID as integer,",
+				"          StockItemID as integer,",
+				"          Quantity as integer,",
+				"          UnitPrice as decimal(18,2),",
+				"          TaxRate as decimal(18,3),",
+				"          CustomerKey as integer,",
+				"          SalespersonPersonKey as integer,",
+				"          BackorderOrderID as integer,",
+				"          OrderDate as date,",
+				"          DeliveryCityID as integer,",
+				"          CityKey as integer,",
+				"          DateKey as integer,",
+				"          OrderLineKey as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+			]
+		}
+	}
+}

@@ -1,0 +1,58 @@
+{
+	"name": "fact_stockHolding",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lsWWIcloud",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "StockHoldingKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "StockItemKey",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "QuantityOnHand",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BinLocation",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LastStocktakeQuantity",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LastCostPrice",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "ReorderLevel",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TargetStockLevel",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "fact",
+			"table": "StockHoldings"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

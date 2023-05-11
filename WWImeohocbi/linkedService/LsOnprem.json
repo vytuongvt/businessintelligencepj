@@ -1,0 +1,16 @@
+{
+	"name": "LsOnprem",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=KHOINGUYEN\\KHOINGUYEN;initial catalog=WideWorldImporters;user id=sa",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJjMjY0MWZjYy1iZWFjLTQ1Y2ItODBiNS0xN2I2MzRiNDZhNjUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IRKN",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
